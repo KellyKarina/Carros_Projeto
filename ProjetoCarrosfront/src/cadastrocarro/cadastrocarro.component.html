@@ -1,0 +1,85 @@
+<div class="background-car">
+  <div class="container">
+
+    <div class="container-cadastro">
+      <div class="titulo">
+        <h1>Cadastrar novo veículo</h1>
+      </div>
+
+      <form [formGroup]="cadastroCarroForm">
+        <div class="grupo-input">
+          <span class="texto-input">Nome do Carro</span>
+          <input type="text" class="campo-form input-estilizado" [(ngModel)]="nomeCarro" formControlName="nomeCarro">
+          <div class="text-danger"
+            *ngIf="cadastroCarroForm.get('nomeCarro')?.invalid && cadastroCarroForm.get('nomeCarro')?.touched">
+            *O campo 'Nome do carro' é obrigatório!
+          </div>
+        </div>
+
+        <div class="grupo-input">
+          <span class="texto-input">Ano de Fabricação</span>
+          <input type="number" class="campo-form input-estilizado" [(ngModel)]="anoFabricacao"
+            formControlName="anoFabricacao" oninput="this.value = this.value.slice(0, 4)">
+          <div class="text-danger"
+            *ngIf="cadastroCarroForm.get('anoFabricacao')?.invalid && cadastroCarroForm.get('anoFabricacao')?.touched">
+            *O campo 'Ano de Fabricação' é obrigatório e deve conter apenas números com 4 dígitos!
+          </div>
+        </div>
+
+        <div class="grupo-input">
+          <span class="texto-input">Ano do Modelo</span>
+          <input type="number" class="campo-form input-estilizado" [(ngModel)]="anoModelo" formControlName="anoModelo"
+            oninput="this.value = this.value.slice(0, 4)">
+          <div class="text-danger"
+            *ngIf="cadastroCarroForm.get('anoModelo')?.invalid && cadastroCarroForm.get('anoModelo')?.touched">
+            *O campo 'Ano do Modelo' é obrigatório e deve conter apenas números com 4 dígitos!
+          </div>
+        </div>
+
+
+
+
+        <div class="grupo-input">
+          <span class="texto-input">Modelo</span>
+          <input type="text" class="campo-form input-estilizado" [(ngModel)]="modelo" formControlName="modelo">
+          <div class="text-danger"
+            *ngIf="cadastroCarroForm.get('modelo')?.invalid && cadastroCarroForm.get('modelo')?.touched">
+            *O campo 'Modelo' é obrigatório!
+          </div>
+        </div>
+
+        <div class="grupo-input">
+          <span class="texto-input">Marca</span>
+          <input type="text" class="campo-form input-estilizado" [(ngModel)]="marcaNome" formControlName="marcaNome">
+          <div class="text-danger"
+            *ngIf="cadastroCarroForm.get('marcaNome')?.invalid && cadastroCarroForm.get('marcaNome')?.touched">
+            *O campo 'Marca' é obrigatório!
+          </div>
+        </div>
+      </form>
+
+      <div class="cores-input">
+        <div class="grupo-cores">
+          <span class="texto-input">Cores</span>
+          <input type="text" class="campo-form input-estilizado" [(ngModel)]="novaCor">
+          <button type="button" class="btn btn-primary mt-1 btn-cor" (click)="adicionarCor(novaCor)"
+            [disabled]="!novaCor">
+            Adicionar cor
+          </button>
+        </div>
+        <div class="botoes-card">
+          <button class="btn btn-voltar" (click)="navega('/formscarro')">Voltar</button>
+          <button class="btn btn-cadastrar" (click)="salvarCarro()"
+            [disabled]="cadastroCarroForm.invalid">Cadastrar</button>
+        </div>
+      </div>
+
+      <div class="grupo-cores">
+        <ul *ngFor="let cor of listaCores; let index = index">
+          <li class="m-1">{{ cor.nomeCor }} <button class="btn btn-secondary btn-pequeno"
+              (click)="removerCor(index)">🗑️</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

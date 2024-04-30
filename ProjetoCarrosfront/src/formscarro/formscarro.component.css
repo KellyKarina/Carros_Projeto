@@ -1,0 +1,130 @@
+.carregamento {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.carregando {
+  pointer-events: auto; 
+}
+
+.cabecalho {
+  width: 100%;
+  background-color: red;
+  display: flex;
+  gap: 10rem;
+}
+
+.textoLogo {
+  font-size: 25px;
+  color: white;
+  margin-left: 20px;
+  align-self: center;
+
+}
+
+.card-actions {
+  gap: 1rem;
+  display: flex;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.navegaCadastro {
+
+  position: absolute;
+  font-size: 13px;
+  color: white;
+  text-decoration: none;
+  border: 2px solid white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  margin-right: auto;
+  right: 0;
+  margin-right: 3rem;
+  margin-top: 1.3rem;
+}
+
+.navegaCadastro:hover {
+  transition: all 0.4s ease-in-out;
+  transform: scale(1.1);
+}
+
+
+.carrosUsados {
+  padding: 1rem;
+}
+
+.carrosUsados .carros {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.carrosUsados .card {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.carrosUsados .card img {
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.carrosUsados .card-info {
+  padding: 20px;
+}
+
+.carrosUsados .card-info h2 {
+  margin-top: 0;
+}
+
+.carrosUsados .card-info p {
+  margin: 5px 0;
+}
+
+.carrosUsados .card-info .preco {
+  margin-top: 10px;
+}
+
+.carrosUsados .card-info .preco span {
+  display: block;
+}
+
+.carrosUsados .card-info .preco .preco-original {
+  text-decoration: line-through;
+  font-size: 14px;
+  color: #999;
+}
+
+.carrosUsados .card-info .preco .preco-promocional {
+  font-size: 18px;
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.titleZeroKm,
+.titleUsados {
+  text-align: center;
+}
+
+footer {
+  bottom: 0;
+  width: 100%;
+  background-color: #ff0000;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}

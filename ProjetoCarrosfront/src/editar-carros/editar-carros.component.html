@@ -1,0 +1,62 @@
+<div class="background-car">
+    <div class="container">
+        <form *ngIf="carroSelecionado" class="registros-form">
+            <div class="info">
+                <h3>editar veiculo</h3>
+
+            </div>
+            <div class="info-form">
+
+                <div class="grupo-input">
+                    <span class="texto-input">Nome do Carro</span>
+                    <input type="text" placeholder="Nome" name="nomeCarro" [(ngModel)]="carroSelecionado.nomeCarro"
+                        [disabled]="!editarCampos" class="input-estilizado">
+                </div>
+
+                <div class="grupo-input">
+                    <span class="texto-input">Ano fabricação</span>
+                    <input type="number" placeholder="Ano de Fabricação" name="anoFabricacao"
+                        [(ngModel)]="carroSelecionado.anoFabricacaoCarro" [disabled]="!editarCampos"
+                        class="input-estilizado">
+                </div>
+
+                <div class="grupo-input">
+                    <span class="texto-input">Ano modelo</span>
+                    <input type="number" placeholder="Ano Modelo" name="anoModelo"
+                        [(ngModel)]="carroSelecionado.anoModeloCarro" [disabled]="!editarCampos" class="input-estilizado">
+                </div>
+
+                <div class="grupo-input">
+                    <span class="texto-input">modelo</span>
+                    <input type="text" placeholder="Modelo" name="modelo" [(ngModel)]="carroSelecionado.modeloCarro"
+                        [disabled]="!editarCampos" class="input-estilizado">
+                </div>
+
+                <div class="grupo-input">
+                    <span class="texto-input">marca</span>
+                    <input type="text" placeholder="Marca" name="marca" [(ngModel)]="carroSelecionado.marca.nomeMarca"
+                        [disabled]="!editarCampos" class="input-estilizado">
+                </div>
+
+                <div class="grupo-input">
+                    <span class="texto-input">Cores</span>
+                    <div *ngFor="let cor of carroSelecionado.cores; let i = index">
+                        <input type="text" placeholder="Cores" name="cor{{i}}"
+                            [(ngModel)]="carroSelecionado.cores[i].nomeCor" [disabled]="!editarCampos"
+                            class="input-estilizado">
+                    </div>
+                </div>
+
+                <div class="botoes-card">
+                    <input *ngIf="!editarCampos" type="button" value="Editar"  id="editarBtn"
+                        (click)="editarCampos = true" class="btn-cor ">
+                    <input *ngIf="editarCampos" type="button" value="Salvar" id="salvarBtn" (click)="editarCarro()"
+                        class="btn-cor ">
+                    <input *ngIf="editarCampos" type="button" value="Cancelar" id="cancelarBtn"
+                        (click)="cancelarEdicao()" class="btn btn-voltar">
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
