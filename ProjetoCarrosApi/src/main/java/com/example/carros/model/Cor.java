@@ -1,38 +1,34 @@
 package com.example.carros.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Table(name = "cor")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Table(name = "cor")
 public class Cor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcor")
-    private int id;
+    private Long id;
 
-    @Column(name = "nomecor")
+    @Column(name = "nome_cor")
     private String nomeCor;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "cores", fetch = FetchType.LAZY)
-    private List<Carro> carros = new ArrayList<>();
+    @ManyToMany(mappedBy = "cores")
+    @JsonBackReference
+    private List<Carro> carros;
 
     public Cor() {
-
     }
 
-    public Cor(String nomeCor) {
-        this.nomeCor = nomeCor;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public String getCor() {
+        return null;
     }
+
 }

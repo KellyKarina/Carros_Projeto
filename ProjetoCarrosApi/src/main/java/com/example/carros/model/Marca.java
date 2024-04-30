@@ -1,26 +1,32 @@
 package com.example.carros.model;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
-@Table(name = "marca")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Table(name = "marca")
 public class Marca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idmarca")
-    private int id;
+    private Long id;
 
-    @Column(name = "nomemarca")
+    @Column(name = "nome_marca")
     private String nomeMarca;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "marca")
+    private List<Carro> carros;
+
     public Marca() {
     }
-
-    public Marca(String nomeMarca) {
-        this.nomeMarca = nomeMarca;
+    public String getNomeMarca() {
+        return nomeMarca;
     }
+
 }

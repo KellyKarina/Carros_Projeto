@@ -2,58 +2,46 @@ package com.example.carros.Service;
 
 import com.example.carros.Repository.MarcaRepository;
 import com.example.carros.model.Marca;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class MarcaService {
 
     @Autowired
-    private MarcaRepository marcaRepository;
+    private MarcaRepository repository;
 
-    public List<Marca> getAllMarcas() {
-        return marcaRepository.findAll();
+    public ResponseEntity<List<Marca>> getAllMarcas() {
+        List<Marca> marcas = repository.findAll();
+        return ResponseEntity.ok(marcas);
     }
 
-    public Optional<Marca> getMarcaById(long id) {
-        return marcaRepository.findById(id);
+    public ResponseEntity<Marca> getMarcaById(Long id) {
+        Optional<Marca> marcaOptional = repository.findById(id);
+        return marcaOptional.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    public Marca saveMarca(Marca marca) {
-        Optional<Marca> existingMarca = marcaRepository.findByNomeMarca(marca.getNomeMarca());
-        if (existingMarca.isPresent()) {
-            return existingMarca.get();
-        } else {
-            return marcaRepository.save(marca);
-        }
+    public ResponseEntity<Marca> saveMarca(Marca marca) {
+        Marca savedMarca = repository.save(marca);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedMarca);
     }
 
-    public void deleteMarca(long id) {
-        marcaRepository.deleteById(id);
+    public ResponseEntity<Marca> updateMarca(Long id, Marca marca) {
+        marca.setId((long) Math.toIntExact(id));
+        Marca updatedMarca = repository.save(marca);
+        return ResponseEntity.ok(updatedMarca);
     }
 
-    public Marca updateMarca(long id, Marca newMarca) {
-        return marcaRepository.findById(id).map(marca -> {
-            marca.setNomeMarca(newMarca.getNomeMarca());
-            return marcaRepository.save(marca);
-        }).orElseGet(() -> {
-            newMarca.setId((int) id);
-            return marcaRepository.save(newMarca);
-        });
-    }
-
-    public Marca getOrCreateMarca(String nomeMarca) {
-        if (nomeMarca == null) {
-            return null;
-        }
-        Optional<Marca> existingMarca = marcaRepository.findByNomeMarca(nomeMarca);
-        return existingMarca.orElseGet(() -> saveMarca(new Marca(nomeMarca)));
-    }
-
-    public Optional<Marca> getMarcaByNome(String nome) {
-        return marcaRepository.findByNomeMarca(nome);
+    public ResponseEntity<Void> deleteMarca(Long id) {
+        repository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

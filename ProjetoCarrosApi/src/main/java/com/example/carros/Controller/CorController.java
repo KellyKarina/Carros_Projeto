@@ -3,12 +3,10 @@ package com.example.carros.Controller;
 import com.example.carros.Service.CorService;
 import com.example.carros.model.Cor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cores")
@@ -19,33 +17,26 @@ public class CorController {
 
     @GetMapping
     public ResponseEntity<List<Cor>> getAllCores() {
-        List<Cor> cores = corService.getAllCores();
-        return ResponseEntity.ok(cores);
+        return corService.getAllCores();
     }
-
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cor> getCorById(@PathVariable long id) {
-        Optional<Cor> cor = corService.getCorById(id);
-        return cor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Cor> getCorById(@PathVariable Long id) {
+        return corService.getCorById(id);
     }
-
 
     @PostMapping
     public ResponseEntity<Cor> saveCor(@RequestBody Cor cor) {
-        Cor savedCor = corService.saveCor(cor);
-        return new ResponseEntity<>(savedCor, HttpStatus.CREATED);
+        return corService.saveCor(cor);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cor> updateCor(@PathVariable long id, @RequestBody Cor newCor) {
-        Cor updatedCor = corService.updateCor(id, newCor);
-        return ResponseEntity.ok(updatedCor);
+    public ResponseEntity<Cor> updateCor(@PathVariable Integer id, @RequestBody Cor cor) {
+        return corService.updateCor(Long.valueOf(id), cor);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCor(@PathVariable long id) {
-        corService.deleteCor(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteCor(@PathVariable Integer id) {
+        return corService.deleteCor(Long.valueOf(id));
     }
 }

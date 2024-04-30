@@ -2,62 +2,54 @@ package com.example.carros.Service;
 
 import com.example.carros.Repository.CorRepository;
 import com.example.carros.model.Cor;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CorService {
 
     @Autowired
-    private CorRepository corRepository;
+    private CorRepository repository;
 
-    public List<Cor> getAllCores() {
-        return corRepository.findAll();
+    public ResponseEntity<List<Cor>> getAllCores() {
+        List<Cor> cores = repository.findAll();
+        return ResponseEntity.ok(cores);
     }
 
-    public Optional<Cor> getCorById(Long id) {
-        return corRepository.findById(id);
+    public ResponseEntity<Cor> getCorById(Long id) {
+        Optional<Cor> corOptional = repository.findById(id);
+        return corOptional.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    public Cor saveCor(Cor cor) {
-        return corRepository.save(cor);
+    public ResponseEntity<Cor> saveCor(Cor cor) {
+        Cor savedCor = repository.save(cor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCor);
     }
 
-    public void deleteCor(Long id) {
-        corRepository.deleteById(id);
-    }
-
-    public Cor updateCor(Long id, Cor newCor) {
-        return corRepository.findById(id).map(cor -> {
-            cor.setNomeCor(newCor.getNomeCor());
-            return corRepository.save(cor);
-        }).orElseGet(() -> {
-            newCor.setId(Math.toIntExact(id));
-            return corRepository.save(newCor);
-        });
-    }
-
-    public Optional<Cor> getCorByNome(String nome) {
-        return corRepository.findByNomeCor(nome);
-    }
-
-    public Cor getOrCreateCor(String nomeCor) {
-        if (nomeCor == null) {
-            return null;
+    public ResponseEntity<Cor> updateCor(Long id, Cor cor) {
+        if (repository.existsById(id)) {
+            cor.setId((long) Math.toIntExact(id));
+            Cor updatedCor = repository.save(cor);
+            return ResponseEntity.ok(updatedCor);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        Optional<Cor> existingCor = getCorByNome(nomeCor);
-        return existingCor.orElseGet(() -> saveCor(new Cor(nomeCor)));
     }
 
-    public boolean existsById(Long id) {
-        return corRepository.existsById(id);
-    }
-
-    public Cor saveOrUpdateCor(Cor cor) {
-        Optional<Cor> existingCor = corRepository.findByNomeCor(cor.getNomeCor());
-        return existingCor.orElseGet(() -> saveCor(cor));
+    public ResponseEntity<Void> deleteCor(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
